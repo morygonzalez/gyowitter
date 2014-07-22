@@ -1,10 +1,16 @@
 package main
 
 import (
+	"bufio"
 	"flag"
+
 	"log"
+	"math/rand"
 	"net/url"
+	"os"
 	"strings"
+
+	"time"
 
 	"github.com/ChimeraCoder/anaconda"
 	"github.com/kentaro/gyo"
@@ -35,14 +41,40 @@ func main() {
 }
 
 func postToTwitter(username string) {
-	anaconda.SetConsumerKey("consumer-key")
-	anaconda.SetConsumerSecret("consumer-secret")
-	api := anaconda.NewTwitterApi("secret-key", "secret-token")
+	anaconda.SetConsumerKey("")
+	anaconda.SetConsumerSecret("")
+	api := anaconda.NewTwitterApi("", "")
 
 	v := url.Values{}
-	strToPost := "また @" + strings.ToLower(username) + " さんから Yo がありました。仕事してるんですかね？"
+	suffix := getSuffix()
+	strToPost := "また @" + strings.ToLower(username) + " さんから Yo がありました。" + suffix
+	log.Printf(strToPost)
 
 	api.PostTweet(strToPost, v)
 
 	return
+}
+
+func getSuffix() string {
+	rand.Seed(time.Now().UTC().UnixNano())
+
+	// open input file
+	fi, err := os.Open("suffixes.txt")
+	if err != nil {
+		panic(err)
+	}
+	// close fi on exit and check for its returned error
+	defer func() {
+		if err := fi.Close(); err != nil {
+			panic(err)
+		}
+	}()
+	// make a read scanner
+	scanner := bufio.NewScanner(fi)
+	var lines []string
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+
+	return lines[rand.Intn(len(lines))]
 }
