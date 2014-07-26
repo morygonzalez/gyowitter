@@ -19,4 +19,4 @@ gyowitter
 
 ### 設置方法
 
-config.sample.json を config.json とリネームしてに必要な情報を記入してください（API のトークンなど）。その後バイナリをビルドしてテキトーなところに置きます。お好きなポート（デフォルトだと 8080 ）で起動して、 Nginx などで dev.justyo.co で設定した callback URL への Yo の hook を localhost:8080 などにプロキシしてあげます。誰かがあなたのアカウントに Yo すると Yo を返しつつ Twitter に post します。
+config.sample.json を config.json とリネームして必要な情報を記入してください（API のトークンなど）。その後バイナリをビルドしてテキトーなところに置きます。お好きなポート（デフォルトだと 8080 ）で起動して、 Nginx などで dev.justyo.co で設定した callback URL への Yo の hook を localhost:8080 などにプロキシしてあげます。誰かがあなたのアカウントに Yo すると Yo を返しつつ Twitter に post します。
