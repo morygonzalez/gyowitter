@@ -6,7 +6,7 @@
         "Twitter": {
             "APIKey": "",
             "APISecret": "",
-            "AcccessToken": "",
+            "AccessToken": "",
             "AccessTokenSecret": ""
         }
     },
