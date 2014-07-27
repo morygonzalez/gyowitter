@@ -45,20 +45,16 @@ func main() {
 func Load(path string) Config {
 	file, err := os.Open(path)
 	if err != nil {
-		return defaultConfig()
+		log.Fatalln("You need config.json to put on same directory.")
 	}
 
 	decoder := json.NewDecoder(file)
 	config := Config{}
 	err = decoder.Decode(&config)
 	if err != nil {
-		return defaultConfig()
+		log.Fatalln("You need valid config.json. Check the syntax.")
 	}
 	return config
-}
-
-func defaultConfig() Config {
-	return Config{}
 }
 
 func postToTwitter(username string) {
