@@ -21,8 +21,9 @@ var path = flag.String("path", "/callback", "Callback URL of the server")
 var config Config
 
 type Config struct {
-	API      map[string]map[string]string
-	Suffixes map[string][]string
+	API              map[string]map[string]string
+	Suffixes         map[string][]string
+	UsernameMappings map[string]string
 }
 
 func init() {
@@ -65,7 +66,8 @@ func postToTwitter(username string) {
 
 	v := url.Values{}
 	suffix := getSuffix()
-	strToPost := "また @" + strings.ToLower(username) + " さんから Yo がありました。" + suffix
+	username = usernameMapping(strings.ToLower(username))
+	strToPost := "また @" + username + " さんから Yo がありました。" + suffix
 	log.Printf(strToPost)
 
 	api.PostTweet(strToPost, v)
@@ -85,4 +87,13 @@ func getSuffix() string {
 	}
 
 	return suffixes[suffixKind][rand.Intn(len(suffixes[suffixKind]))]
+}
+
+func usernameMapping(username string) string {
+	mappings := config.UsernameMappings
+	if mapped, ok := mappings[username]; ok {
+		return mapped
+	} else {
+		return username
+	}
 }
