@@ -55,6 +55,8 @@ func Load(path string) Config {
 	if err != nil {
 		log.Fatalln("You need valid config.json. Check the syntax.")
 	}
+	file.Close()
+
 	return config
 }
 
